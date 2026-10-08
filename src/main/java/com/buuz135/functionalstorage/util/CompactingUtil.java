@@ -36,7 +36,7 @@ import java.util.stream.IntStream;
 public class CompactingUtil {
 
     private final Level level;
-    private List<Result> results;
+    private final List<Result> results;
     private final int resultAmount;
     private final List<CustomCompactingRecipe> recipes;
 

@@ -44,12 +44,12 @@ public final class DrawerSpecialRenderer implements SpecialModelRenderer<DrawerS
         if (data == null) return;
 
         // Match the north-facing block model coordinates used by the former ISTER.
-        pose.mulPose(Axis.YP.rotationDegrees(180));
-        pose.mulPose(Axis.XN.rotationDegrees(90));
-        pose.mulPose(Axis.YP.rotationDegrees(90));
+        pose.rotate(Axis.YP.rotationDegrees(180));
+        pose.rotate(Axis.XN.rotationDegrees(90));
+        pose.rotate(Axis.YP.rotationDegrees(90));
         pose.translate(-1, 0, -1);
-        pose.mulPose(Axis.YP.rotationDegrees(-90));
-        pose.mulPose(Axis.XP.rotationDegrees(90));
+        pose.rotate(Axis.YP.rotationDegrees(-90));
+        pose.rotate(Axis.XP.rotationDegrees(90));
 
         if (kind == Kind.FLUID) {
             pose.translate(0, -1, -1);

@@ -6,9 +6,8 @@
     }
   ],
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "key": {
-    "B": "minecraft:copper_block",
+    "B": "#c:storage_blocks/copper",
     "C": "#c:chests/wooden",
     "D": {
       "neoforge:ingredient_type": "functionalstorage:tag_without_component",

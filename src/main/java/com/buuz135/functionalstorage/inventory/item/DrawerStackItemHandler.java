@@ -29,9 +29,9 @@ import static com.buuz135.functionalstorage.inventory.BigInventoryHandler.STACK;
 
 public class DrawerStackItemHandler extends SnapshotJournal<List<DrawerStackItemHandler.StoredResource>> implements ResourceHandler<ItemResource>, INBTSerializable<CompoundTag> {
 
-    private List<BigInventoryHandler.BigStack> storedStacks;
-    private ItemStack stack;
-    private FunctionalStorage.DrawerType type;
+    private final List<BigInventoryHandler.BigStack> storedStacks;
+    private final ItemStack stack;
+    private final FunctionalStorage.DrawerType type;
     private float size;
     private boolean isVoid;
     private boolean isCreative;

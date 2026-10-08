@@ -39,7 +39,7 @@ public interface FunctionalUpgradeBehavior {
         return false;
     }
 
-    default public List<Component> getTooltip(){
+    default List<Component> getTooltip(){
         return new ArrayList<>();
     }
 

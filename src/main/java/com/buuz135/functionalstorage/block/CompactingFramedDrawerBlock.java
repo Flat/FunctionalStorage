@@ -10,6 +10,7 @@ import com.buuz135.functionalstorage.recipe.TagWithoutComponentIngredient;
 import com.buuz135.functionalstorage.util.StorageTags;
 import com.hrznstudio.titanium.recipe.generator.TitaniumShapedRecipeBuilder;
 import com.hrznstudio.titanium.util.TileUtil;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -37,7 +38,7 @@ import java.util.List;
 
 public class CompactingFramedDrawerBlock extends CompactingDrawerBlock implements FramedBlock {
     public CompactingFramedDrawerBlock(String name) {
-        super(name, Properties.ofFullCopy(Blocks.STONE).noOcclusion().isViewBlocking((p_61036_, p_61037_, p_61038_) -> false));
+        super(name, Properties.ofFullCopy(Blocks.STONE).noOcclusion().isViewBlocking((p_61036_, p_61037_, p_61038_, aabb) -> false));
     }
 
     @Override
@@ -59,7 +60,7 @@ public class CompactingFramedDrawerBlock extends CompactingDrawerBlock implement
                 .pattern("S S").pattern("SDS").pattern(" S ")
                 .define('S', Tags.Items.NUGGETS_IRON)
                 .define('D', FunctionalStorage.COMPACTING_DRAWER)
-                .setName(builtInRegistryHolder().unwrapKey().get().identifier().withSuffix("_from_simple"))
+                .setName(BuiltInRegistries.BLOCK.getKey(this).withSuffix("_from_simple"))
                 .save(CopyComponentsRecipe.output(consumer, 4, FSAttachments.TILE.get()));
     }
     

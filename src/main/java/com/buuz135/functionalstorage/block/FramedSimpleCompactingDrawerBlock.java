@@ -8,6 +8,7 @@ import com.buuz135.functionalstorage.recipe.CopyComponentsRecipe;
 import com.buuz135.functionalstorage.recipe.TagWithoutComponentIngredient;
 import com.buuz135.functionalstorage.util.StorageTags;
 import com.hrznstudio.titanium.recipe.generator.TitaniumShapedRecipeBuilder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
@@ -16,7 +17,7 @@ import net.neoforged.neoforge.common.Tags;
 
 public class FramedSimpleCompactingDrawerBlock extends SimpleCompactingDrawerBlock implements FramedBlock {
     public FramedSimpleCompactingDrawerBlock(String name) {
-        super(name, Properties.ofFullCopy(Blocks.STONE).noOcclusion().isViewBlocking((p_61036_, p_61037_, p_61038_) -> false));
+        super(name, Properties.ofFullCopy(Blocks.STONE).noOcclusion().isViewBlocking((p_61036_, p_61037_, p_61038_, aabb) -> false));
     }
 
     @Override
@@ -38,7 +39,7 @@ public class FramedSimpleCompactingDrawerBlock extends SimpleCompactingDrawerBlo
                 .pattern("SSS").pattern("SDS").pattern(" S ")
                 .define('S', Tags.Items.NUGGETS_IRON)
                 .define('D', FunctionalStorage.SIMPLE_COMPACTING_DRAWER)
-                .setName(builtInRegistryHolder().unwrapKey().get().identifier().withSuffix("_from_simple"))
+                .setName(BuiltInRegistries.BLOCK.getKey(this).withSuffix("_from_simple"))
                 .save(CopyComponentsRecipe.output(consumer, 4, FSAttachments.TILE.get()));
     }
 

@@ -5,6 +5,7 @@ import com.buuz135.functionalstorage.block.Drawer;
 import com.buuz135.functionalstorage.block.DrawerBlock;
 import com.hrznstudio.titanium.block.RotatableBlock;
 import com.mojang.math.Quadrant;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.blockstates.MultiPartGenerator;
 import net.minecraft.client.data.models.model.ModelLocationUtils;
@@ -43,7 +44,7 @@ public class FunctionalStorageBlockstateProvider implements DataProvider {
         return DataProvider.saveAll(
                 cache,
                 BlockStateModelDispatcher.CODEC,
-                block -> blockStatePathProvider.json(block.builtInRegistryHolder().key().identifier()),
+                block -> blockStatePathProvider.json(BuiltInRegistries.BLOCK.getKey(block)),
                 definitions);
     }
 

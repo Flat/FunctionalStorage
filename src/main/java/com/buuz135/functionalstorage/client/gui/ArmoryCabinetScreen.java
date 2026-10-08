@@ -1,6 +1,7 @@
 package com.buuz135.functionalstorage.client.gui;
 
 import com.buuz135.functionalstorage.inventory.ArmoryCabinetMenu;
+import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -10,7 +11,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
-import org.lwjgl.glfw.GLFW;
+import org.lwjgl.sdl.SDL;
 
 public class ArmoryCabinetScreen extends AbstractContainerScreen<ArmoryCabinetMenu> {
 
@@ -118,7 +119,7 @@ public class ArmoryCabinetScreen extends AbstractContainerScreen<ArmoryCabinetMe
 
     @Override
     public boolean keyPressed(KeyEvent event) {
-        if (searchBox != null && searchBox.isFocused() && event.key() != GLFW.GLFW_KEY_ESCAPE) {
+        if (searchBox != null && searchBox.isFocused() && event.key() != InputConstants.KEY_ESCAPE) {
             searchBox.keyPressed(event);
             return true;
         }

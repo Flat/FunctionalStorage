@@ -8,8 +8,7 @@ import com.mojang.serialization.MapLike;
 import com.mojang.serialization.RecordBuilder;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.*;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -67,7 +66,7 @@ public class CopyComponentsRecipe implements CraftingRecipe {
         public CopyComponentsRecipe decode(RegistryFriendlyByteBuf buffer) {
             var recipe = ShapedRecipe.STREAM_CODEC.decode(buffer);
             return new CopyComponentsRecipe(
-                    recipe, buffer.readVarInt(), buffer.readList(ByteBufCodecs.idMapper(BuiltInRegistries.DATA_COMPONENT_TYPE))
+                    recipe, buffer.readVarInt(), ByteBufCodecs.collection(ArrayList::new, ByteBufCodecs.idMapper(BuiltInRegistries.DATA_COMPONENT_TYPE)).decode(buffer)
             );
         }
 
@@ -75,7 +74,7 @@ public class CopyComponentsRecipe implements CraftingRecipe {
         public void encode(RegistryFriendlyByteBuf buffer, CopyComponentsRecipe value) {
             ShapedRecipe.STREAM_CODEC.encode(buffer, value.wrapped);
             buffer.writeVarInt(value.copyIndex);
-            buffer.writeCollection(value.components, ByteBufCodecs.idMapper(BuiltInRegistries.DATA_COMPONENT_TYPE));
+            ByteBufCodecs.collection(ArrayList::new, ByteBufCodecs.idMapper(BuiltInRegistries.DATA_COMPONENT_TYPE)).encode(buffer, new ArrayList<>(value.components));
         }
     };
 
@@ -104,7 +103,7 @@ public class CopyComponentsRecipe implements CraftingRecipe {
     @Override
     @SuppressWarnings("unchecked")
     public RecipeSerializer<CopyComponentsRecipe> getSerializer() {
-        return (RecipeSerializer<CopyComponentsRecipe>) (RecipeSerializer<?>) FunctionalStorage.COPY_COMPONENTS_SERIALIZER.value();
+        return (RecipeSerializer<CopyComponentsRecipe>) FunctionalStorage.COPY_COMPONENTS_SERIALIZER.value();
     }
 
     @Override
@@ -136,6 +135,16 @@ public class CopyComponentsRecipe implements CraftingRecipe {
     public static RecipeOutput output(RecipeOutput output, int copyIndex, DataComponentType<?>... components) {
         return new RecipeOutput() {
             @Override
+            public <S> HolderGetter<S> lookup(ResourceKey<? extends Registry<? extends S>> resourceKey) {
+                return output.lookup(resourceKey);
+            }
+
+            @Override
+            public <S> Stream<Holder.Reference<S>> listContextElements(ResourceKey<? extends Registry<? extends S>> resourceKey) {
+                return output.listContextElements(resourceKey);
+            }
+
+            @Override
             public Advancement.Builder advancement() {
                 return output.advancement();
             }
@@ -143,11 +152,6 @@ public class CopyComponentsRecipe implements CraftingRecipe {
             @Override
             public void accept(ResourceKey<Recipe<?>> id, Recipe<?> recipe, @Nullable AdvancementHolder advancement, ICondition... conditions) {
                 output.accept(id, new CopyComponentsRecipe((ShapedRecipe) recipe, copyIndex, Arrays.asList(components)), advancement, conditions);
-            }
-
-            @Override
-            public void includeRootAdvancement() {
-                output.includeRootAdvancement();
             }
         };
     }

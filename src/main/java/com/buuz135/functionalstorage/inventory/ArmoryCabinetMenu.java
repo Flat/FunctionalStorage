@@ -46,7 +46,7 @@ public class ArmoryCabinetMenu extends AbstractContainerMenu {
     }
 
     public ArmoryCabinetMenu(int id, Inventory playerInventory, ArmoryCabinetInventoryHandler handler, BlockPos pos) {
-        super((MenuType<ArmoryCabinetMenu>) FunctionalStorage.ARMORY_CABINET_MENU.get(), id);
+        super(FunctionalStorage.ARMORY_CABINET_MENU.get(), id);
         this.playerInventory = playerInventory;
         this.handler = handler;
         this.tile = playerInventory.player.level().getBlockEntity(pos) instanceof ArmoryCabinetTile armory ? armory : null;

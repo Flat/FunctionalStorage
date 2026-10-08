@@ -32,7 +32,7 @@ public class NumberUtils {
     }
 
     public static String getFormatedFluidBigNumber(int number) {
-        if (number < 1000) return String.valueOf(number) + " mB";
+        if (number < 1000) return number + " mB";
         if (number >= 1000000000) { //BILLION
             float numb = number / 1000000000F;
             return formatterWithUnits.format(numb) + "M B";
@@ -45,7 +45,7 @@ public class NumberUtils {
             if (number > 100000) numb = Math.round(numb);
             return formatterWithUnits.format(numb) + " B";
         }
-        return String.valueOf(number) + " B";
+        return number + " B";
     }
 }
 

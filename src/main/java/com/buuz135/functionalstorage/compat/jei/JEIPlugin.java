@@ -37,10 +37,10 @@ public class JEIPlugin implements IModPlugin {
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         IModPlugin.super.registerRecipeCatalysts(registration);
-        registration.addRecipeCatalyst(new ItemStack(FunctionalStorage.COMPACTING_DRAWER.getBlock()), CompactingRecipeCategory.TYPE);
-        registration.addRecipeCatalyst(new ItemStack(FunctionalStorage.FRAMED_COMPACTING_DRAWER.getBlock()), CompactingRecipeCategory.TYPE);
-        registration.addRecipeCatalyst(new ItemStack(FunctionalStorage.SIMPLE_COMPACTING_DRAWER.getBlock()), CompactingRecipeCategory.TYPE);
-        registration.addRecipeCatalyst(new ItemStack(FunctionalStorage.FRAMED_SIMPLE_COMPACTING_DRAWER.getBlock()), CompactingRecipeCategory.TYPE);
+        registration.addCraftingStation(CompactingRecipeCategory.TYPE, new ItemStack(FunctionalStorage.DRAWER_CONTROLLER.getBlock()));
+        registration.addCraftingStation(CompactingRecipeCategory.TYPE, new ItemStack(FunctionalStorage.FRAMED_COMPACTING_DRAWER.getBlock()));
+        registration.addCraftingStation(CompactingRecipeCategory.TYPE, new ItemStack(FunctionalStorage.SIMPLE_COMPACTING_DRAWER.getBlock()));
+        registration.addCraftingStation(CompactingRecipeCategory.TYPE, new ItemStack(FunctionalStorage.FRAMED_SIMPLE_COMPACTING_DRAWER.getBlock()));
     }
 
     @Override

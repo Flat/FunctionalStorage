@@ -11,6 +11,7 @@ import com.hrznstudio.titanium.util.RayTraceUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -33,7 +34,7 @@ import java.util.UUID;
 
 public abstract class ItemControllableDrawerTile<T extends ItemControllableDrawerTile<T>> extends ControllableDrawerTile<T> {
 
-    private static HashMap<UUID, Long> INTERACTION_LOGGER = new HashMap<>();
+    private static final HashMap<UUID, Long> INTERACTION_LOGGER = new HashMap<>();
     private int removeTicks = 0;
     private ResourceHandler<ItemResource> transferHandler;
 
@@ -103,7 +104,7 @@ public abstract class ItemControllableDrawerTile<T extends ItemControllableDrawe
                     }
                     int extractedAmount = StorageTransferUtil.extract(getStorage(), slot, resource, playerIn.isShiftKeyDown() ? resource.getMaxStackSize() : 1, true);
                     ItemStack extracted = resource.toStack(extractedAmount);
-                    if (!playerIn.addItem(extracted)) playerIn.drop(extracted, false);
+                    if (!playerIn.addItem(extracted)) playerIn.drop(extracted, false, Prediction.SERVER_ONLY);
                 }
             }
         }
@@ -154,11 +155,7 @@ public abstract class ItemControllableDrawerTile<T extends ItemControllableDrawe
                     replacement[integer] = stack;
 
                     var newSize = (double) SizeProvider.calculateAsFactor(getStorageUpgrades(), FSAttachments.ITEM_STORAGE_MODIFIER, baseSize, replacement);
-                    if (!canChangeMultiplier(newSize)) {
-                        return false;
-                    }
-
-                    return true;
+                    return canChangeMultiplier(newSize);
                 })
                 .setOnSlotChanged((stack, integer) -> {
                     setNeedsUpgradeCache(true);

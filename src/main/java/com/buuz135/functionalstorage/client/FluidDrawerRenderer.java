@@ -25,6 +25,7 @@ import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.fluid.FluidTintSource;
@@ -107,7 +108,7 @@ public class FluidDrawerRenderer implements BlockEntityRenderer<FluidDrawerTile,
             matrixStack.pushPose();
             matrixStack.translate(0.5, 0.84, 0.97);
             if (halfText) matrixStack.translate(-0.25, 0, 0);
-            DrawerRenderer.renderText(matrixStack, collector, combinedLight, Component.literal(ChatFormatting.WHITE + "" + NumberUtils.getFormatedFluidBigNumber(amount)), Direction.NORTH, scale);
+            DrawerRenderer.renderText(matrixStack, collector, combinedLight, Component.literal(ChatFormatting.WHITE + NumberUtils.getFormatedFluidBigNumber(amount)), Direction.NORTH, scale);
             matrixStack.popPose();
         }
         matrixStack.pushPose();
@@ -164,23 +165,23 @@ public class FluidDrawerRenderer implements BlockEntityRenderer<FluidDrawerTile,
             }
         }
         Direction facing = tile.getFacingDirection();
-        matrixStack.mulPose(Axis.YP.rotationDegrees(-180));
+        matrixStack.rotate(Axis.YP.rotationDegrees(-180));
         if (subfacing == Direction.NORTH) {
             matrixStack.translate(-1, 0, -1);
         }
         if (subfacing == Direction.EAST) {
             matrixStack.translate(0, 0, -1);
-            matrixStack.mulPose(Axis.YP.rotationDegrees(-90));
+            matrixStack.rotate(Axis.YP.rotationDegrees(-90));
         }
         if (subfacing == Direction.SOUTH) {
-            matrixStack.mulPose(Axis.YP.rotationDegrees(-180));
+            matrixStack.rotate(Axis.YP.rotationDegrees(-180));
         }
         if (subfacing == Direction.WEST) {
             matrixStack.translate(-1, 0, 0);
-            matrixStack.mulPose(Axis.YP.rotationDegrees(90));
+            matrixStack.rotate(Axis.YP.rotationDegrees(90));
         }
         int lightCoords = tile.getLevel() != null
-                ? LevelRenderer.getLightCoords(tile.getLevel(), tile.getBlockPos().relative(subfacing))
+                ? LightCoordsUtil.getLightCoords(tile.getLevel(), tile.getBlockPos().relative(subfacing))
                 : state.lightCoords;
 
         if (tile.getDrawerType() == FunctionalStorage.DrawerType.X_1)

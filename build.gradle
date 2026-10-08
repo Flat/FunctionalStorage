@@ -1,6 +1,6 @@
 plugins {
     id 'java-library'
-    id 'net.neoforged.moddev' version '2.0.143'
+    id 'net.neoforged.moddev' version '2.0.148'
     id 'maven-publish'
 }
 
@@ -17,6 +17,9 @@ sourceSets {
 }
 
 repositories {
+    flatDir {
+        dirs '../libs'
+    }
     maven {
         name = "BlameJared maven"
         url = "https://maven.blamejared.com/"
@@ -76,17 +79,20 @@ dependencies {
 
     implementation "com.hrznstudio:titanium:${titanium_version}"
 
-    compileOnly "curse.maven:jade-324717:8651070"
-    localRuntime "curse.maven:jade-324717:8651070"
+    compileOnly "curse.maven:jade-324717:9042207"
+    localRuntime "curse.maven:jade-324717:9042207"
     compileOnly "curse.maven:ftb-library-forge-404465:8574542"
     compileOnly "curse.maven:ftb-teams-forge-404468:8074003"
     compileOnly "curse.maven:ftb-chunks-forge-314906:8574590"
-    localRuntime "curse.maven:ftb-library-forge-404465:8574542"
-    localRuntime "curse.maven:ftb-teams-forge-404468:8074003"
-    localRuntime "curse.maven:ftb-chunks-forge-314906:8574590"
 
-    localRuntime "curse.maven:applied-energistics-2-223794:9022271"
-    localRuntime "curse.maven:guideme-1173950:9022838"
+    // Not yet updated to 26.3 on Curseforge
+
+    //     localRuntime "curse.maven:ftb-library-forge-404465:8574542"
+    //     localRuntime "curse.maven:ftb-teams-forge-404468:8074003"
+    //     localRuntime "curse.maven:ftb-chunks-forge-314906:8574590"
+
+    //     localRuntime "curse.maven:applied-energistics-2-223794:9022271"
+    //     localRuntime "curse.maven:guideme-1173950:9022838"
 }
 
 jar {

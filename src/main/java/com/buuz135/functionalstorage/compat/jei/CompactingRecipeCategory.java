@@ -7,19 +7,19 @@ import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.network.chat.Component;
 
 public class CompactingRecipeCategory implements IRecipeCategory<CustomCompactingRecipe> {
 
-    public static RecipeType<CustomCompactingRecipe> TYPE = RecipeType.create(FunctionalStorage.MOD_ID, "dissolution", CustomCompactingRecipe.class);
+    public static IRecipeType<CustomCompactingRecipe> TYPE = IRecipeType.create(FunctionalStorage.MOD_ID, "dissolution", CustomCompactingRecipe.class);
 
     public CompactingRecipeCategory(IGuiHelper guiHelper) {
     }
 
     @Override
-    public RecipeType<CustomCompactingRecipe> getRecipeType() {
+    public IRecipeType<CustomCompactingRecipe> getRecipeType() {
         return TYPE;
     }
 

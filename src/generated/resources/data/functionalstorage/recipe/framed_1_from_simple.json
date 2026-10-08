@@ -6,7 +6,6 @@
     }
   ],
   "type": "functionalstorage:copy_components",
-  "category": "misc",
   "components": [
     "functionalstorage:tile"
   ],

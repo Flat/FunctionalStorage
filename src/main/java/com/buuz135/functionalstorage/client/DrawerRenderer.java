@@ -113,7 +113,7 @@ public class DrawerRenderer extends BaseDrawerRenderer<DrawerTile> {
     }
 
     private void render1Slot(PoseStack matrixStack, SubmitNodeCollector collector, int lightCoords, DrawerTile tile) {
-        BigInventoryHandler inventoryHandler = (BigInventoryHandler) tile.getStorage();
+        BigInventoryHandler inventoryHandler = tile.getStorage();
         if (!inventoryHandler.getStoredStacks().get(0).getStack().isEmpty()) {
             matrixStack.translate(0.5, 0.5, 0.0005f);
             ItemStack stack = inventoryHandler.getStoredStacks().get(0).getStack();
@@ -122,7 +122,7 @@ public class DrawerRenderer extends BaseDrawerRenderer<DrawerTile> {
     }
 
     private void render2Slot(PoseStack matrixStack, SubmitNodeCollector collector, int lightCoords, DrawerTile tile) {
-        BigInventoryHandler inventoryHandler = (BigInventoryHandler) tile.getStorage();
+        BigInventoryHandler inventoryHandler = tile.getStorage();
         if (!inventoryHandler.getStoredStacks().get(0).getStack().isEmpty()) {
             matrixStack.pushPose();
             matrixStack.mulPose(createTransformMatrix(new Vector3f(0.5f, 0.77f, 0.0005f), new Vector3f(0), new Vector3f(.5f, .5f, 1.0f)));
@@ -141,7 +141,7 @@ public class DrawerRenderer extends BaseDrawerRenderer<DrawerTile> {
     }
 
     private void render4Slot(PoseStack matrixStack, SubmitNodeCollector collector, int lightCoords, DrawerTile tile) {
-        BigInventoryHandler inventoryHandler = (BigInventoryHandler) tile.getStorage();
+        BigInventoryHandler inventoryHandler = tile.getStorage();
         if (!inventoryHandler.getStoredStacks().get(0).getStack().isEmpty()) {
             matrixStack.pushPose();
             matrixStack.mulPose(createTransformMatrix(
@@ -193,7 +193,7 @@ public class DrawerRenderer extends BaseDrawerRenderer<DrawerTile> {
                     new Vector3f(0), new Vector3f(0), .4f));
         }
 
-        matrixStack.mulPose(Axis.YP.rotationDegrees(180));
+        matrixStack.rotate(Axis.YP.rotationDegrees(180));
         if (options.isActive(ConfigurationToolItem.ConfigurationAction.TOGGLE_RENDER)) {
             itemState.submit(matrixStack, collector, lightCoords, OverlayTexture.NO_OVERLAY, 0);
         }
@@ -209,7 +209,7 @@ public class DrawerRenderer extends BaseDrawerRenderer<DrawerTile> {
         }
 
         if (options.isActive(ConfigurationToolItem.ConfigurationAction.TOGGLE_NUMBERS))
-            renderText(matrixStack, collector, lightCoords, Component.literal(ChatFormatting.WHITE + "" + NumberUtils.getFormatedBigNumber(amount)), Direction.NORTH, scale);
+            renderText(matrixStack, collector, lightCoords, Component.literal(ChatFormatting.WHITE + NumberUtils.getFormatedBigNumber(amount)), Direction.NORTH, scale);
     }
 
 

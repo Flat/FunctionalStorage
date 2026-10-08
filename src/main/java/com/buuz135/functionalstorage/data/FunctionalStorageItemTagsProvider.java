@@ -3,11 +3,13 @@ package com.buuz135.functionalstorage.data;
 import com.buuz135.functionalstorage.FunctionalStorage;
 import com.buuz135.functionalstorage.util.StorageTags;
 import com.hrznstudio.titanium.module.BlockWithTile;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.ItemTagsProvider;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
+import org.jspecify.annotations.NonNull;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -19,21 +21,21 @@ public class FunctionalStorageItemTagsProvider extends ItemTagsProvider {
     }
 
     @Override
-    protected void addTags(HolderLookup.Provider p_256380_) {
+    protected void addTags(HolderLookup.@NonNull Provider p_256380_) {
         var tTagAppender = this.tag(StorageTags.DRAWER);
         for (FunctionalStorage.DrawerType drawerType : FunctionalStorage.DRAWER_TYPES.keySet()) {
             FunctionalStorage.DRAWER_TYPES.get(drawerType).stream().map(BlockWithTile::block)
-                    .forEach(ho -> tTagAppender.add(ho.get().asItem()));
+                    .forEach(ho -> tTagAppender.add(BuiltInRegistries.ITEM.wrapAsHolder(ho.get().asItem()).key()));
         }
         for (FunctionalStorage.DrawerType drawerType : FunctionalStorage.DRAWER_TYPES.keySet()) {
             var byTypeAppender = this.tag(drawerType.getTag());
             FunctionalStorage.DRAWER_TYPES.get(drawerType).stream().map(BlockWithTile::block)
-                    .forEach(ho -> byTypeAppender.add(ho.get().asItem()));
+                    .forEach(ho -> byTypeAppender.add(BuiltInRegistries.ITEM.wrapAsHolder(ho.get().asItem()).key()));
         }
-        this.tag(FunctionalStorage.DrawerType.X_1.getTag()).add(FunctionalStorage.FLUID_DRAWER_1.getBlock().asItem());
-        this.tag(FunctionalStorage.DrawerType.X_2.getTag()).add(FunctionalStorage.FLUID_DRAWER_2.getBlock().asItem());
-        this.tag(FunctionalStorage.DrawerType.X_4.getTag()).add(FunctionalStorage.FLUID_DRAWER_4.getBlock().asItem());
-        this.tag(StorageTags.FLUID_DRAWER).add(FunctionalStorage.FLUID_DRAWER_1.getBlock().asItem(), FunctionalStorage.FLUID_DRAWER_2.getBlock().asItem(), FunctionalStorage.FLUID_DRAWER_4.getBlock().asItem());
+        this.tag(FunctionalStorage.DrawerType.X_1.getTag()).add(BuiltInRegistries.ITEM.wrapAsHolder(FunctionalStorage.FLUID_DRAWER_1.getBlock().asItem()).key());
+        this.tag(FunctionalStorage.DrawerType.X_2.getTag()).add(BuiltInRegistries.ITEM.wrapAsHolder(FunctionalStorage.FLUID_DRAWER_2.getBlock().asItem()).key());
+        this.tag(FunctionalStorage.DrawerType.X_4.getTag()).add(BuiltInRegistries.ITEM.wrapAsHolder(FunctionalStorage.FLUID_DRAWER_4.getBlock().asItem()).key());
+        this.tag(StorageTags.FLUID_DRAWER).add(BuiltInRegistries.ITEM.wrapAsHolder(FunctionalStorage.FLUID_DRAWER_1.getBlock().asItem()).key(), BuiltInRegistries.ITEM.wrapAsHolder(FunctionalStorage.FLUID_DRAWER_2.getBlock().asItem()).key(), BuiltInRegistries.ITEM.wrapAsHolder(FunctionalStorage.FLUID_DRAWER_4.getBlock().asItem()).key());
         this.tag(StorageTags.ARMORY_CABINET_INSERTABLE)
                 .addTag(ItemTags.SWORDS)
                 .addTag(ItemTags.AXES)
@@ -48,13 +50,13 @@ public class FunctionalStorageItemTagsProvider extends ItemTagsProvider {
                 .addTag(ItemTags.CROSSBOW_ENCHANTABLE)
                 .addTag(ItemTags.TRIDENT_ENCHANTABLE)
                 .addTag(ItemTags.MACE_ENCHANTABLE)
-                .add(Items.ELYTRA, Items.SHIELD, Items.FISHING_ROD, Items.FLINT_AND_STEEL, Items.SHEARS, Items.BRUSH, Items.ENCHANTED_BOOK);
+                .add(BuiltInRegistries.ITEM.wrapAsHolder(Items.ELYTRA).key(), BuiltInRegistries.ITEM.wrapAsHolder(Items.SHIELD).key(), BuiltInRegistries.ITEM.wrapAsHolder(Items.FISHING_ROD).key(), BuiltInRegistries.ITEM.wrapAsHolder(Items.FLINT_AND_STEEL).key(), BuiltInRegistries.ITEM.wrapAsHolder(Items.SHEARS).key(), BuiltInRegistries.ITEM.wrapAsHolder(Items.BRUSH).key(), BuiltInRegistries.ITEM.wrapAsHolder(Items.ENCHANTED_BOOK).key());
         this.tag(StorageTags.DRAWER_STORAGE_DENYLIST);
         this.tag(StorageTags.CREATIVE_VENDING_UPGRADE_INCOMPATIBLE);
     }
 
     @Override
-    public String getName()
+    public @NonNull String getName()
     {
         return "Functional Storage Item Tags";
     }

@@ -27,7 +27,7 @@ public class EnderSavedData extends SavedData {
 
     private HashMap<String, EnderInventoryHandler> itemHandlers;
 
-    private Level level;
+    private final Level level;
 
     public EnderSavedData(Level level) {
         this.itemHandlers = new HashMap<>();

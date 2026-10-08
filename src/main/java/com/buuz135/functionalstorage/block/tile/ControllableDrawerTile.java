@@ -25,7 +25,9 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResult;
@@ -53,17 +55,17 @@ public abstract class ControllableDrawerTile<T extends ControllableDrawerTile<T>
     @Save
     private BlockPos controllerPos;
     // We do not save this automatically so that we can read it first
-    private InventoryComponent<ControllableDrawerTile<T>> storageUpgrades;
+    private final InventoryComponent<ControllableDrawerTile<T>> storageUpgrades;
     @Save
     private InventoryComponent<ControllableDrawerTile<T>> utilityUpgrades;
     @Save
-    private DrawerOptions drawerOptions;
+    private final DrawerOptions drawerOptions;
     @Save
     private boolean isCreative = false;
     @Save
     private boolean isVoid = false;
     @Save
-    private boolean isStorageUpgradeLocked = false;
+    private final boolean isStorageUpgradeLocked = false;
     @Save
     private int priority = 0;
 
@@ -167,7 +169,7 @@ public abstract class ControllableDrawerTile<T extends ControllableDrawerTile<T>
     public void initClient() {
         super.initClient();
         if (getStorageSlotAmount() > 0) {
-            addGuiAddonFactory(() -> new TextScreenAddon("gui.functionalstorage.storage", 10, 59, false, ChatFormatting.DARK_GRAY.getColor()) {
+            addGuiAddonFactory(() -> new TextScreenAddon("gui.functionalstorage.storage", 10, 59, false, TextColor.DARK_GRAY.getValue()) {
                 @Override
                 public String getText() {
                     return Component.translatable("key.categories.storage").getString();
@@ -175,14 +177,14 @@ public abstract class ControllableDrawerTile<T extends ControllableDrawerTile<T>
             });
         }
         if (getUtilitySlotAmount() > 0){
-            addGuiAddonFactory(() -> new TextScreenAddon("gui.functionalstorage.utility", 114, 59, false, ChatFormatting.DARK_GRAY.getColor()) {
+            addGuiAddonFactory(() -> new TextScreenAddon("gui.functionalstorage.utility", 114, 59, false, TextColor.DARK_GRAY.getValue()) {
                 @Override
                 public String getText() {
                     return Component.translatable("key.categories.utility").getString();
                 }
             });
         }
-        addGuiAddonFactory(() -> new TextScreenAddon("container.inventory", 8, 92, false, ChatFormatting.DARK_GRAY.getColor()) {
+        addGuiAddonFactory(() -> new TextScreenAddon("container.inventory", 8, 92, false, TextColor.DARK_GRAY.getValue()) {
             @Override
             public String getText() {
                 return Component.translatable("container.inventory").getString();
@@ -193,7 +195,7 @@ public abstract class ControllableDrawerTile<T extends ControllableDrawerTile<T>
 
     @Override
     public Direction getFacingDirection() {
-        return this.level.getBlockState(this.worldPosition).hasProperty(DrawerBlock.FACING_HORIZONTAL_CUSTOM) ? (Direction)this.level.getBlockState(this.worldPosition).getValue(DrawerBlock.FACING_HORIZONTAL_CUSTOM) : (this.level.getBlockState(this.worldPosition).hasProperty(RotatableBlock.FACING_HORIZONTAL) ? (Direction)this.level.getBlockState(this.worldPosition).getValue(RotatableBlock.FACING_HORIZONTAL) : Direction.NORTH);
+        return this.level.getBlockState(this.worldPosition).hasProperty(DrawerBlock.FACING_HORIZONTAL_CUSTOM) ? this.level.getBlockState(this.worldPosition).getValue(DrawerBlock.FACING_HORIZONTAL_CUSTOM) : (this.level.getBlockState(this.worldPosition).hasProperty(RotatableBlock.FACING_HORIZONTAL) ? this.level.getBlockState(this.worldPosition).getValue(RotatableBlock.FACING_HORIZONTAL) : Direction.NORTH);
     }
 
     @Override
@@ -313,7 +315,7 @@ public abstract class ControllableDrawerTile<T extends ControllableDrawerTile<T>
                 for (int i = 0; i < component.getSlots(); i++) {
                     if (!component.getStackInSlot(i).isEmpty() && component.isItemValid(i, stack) && component.getStackInSlot(i).has(sizeUpgradeComponent) && component.getStackInSlot(i).get(sizeUpgradeComponent).applyFactorModifier(1f) < sizeComp.applyFactorModifier(1f)) {
                         ItemStack previous = component.getStackInSlot(i).copy();
-                        if (!playerIn.addItem(previous)) playerIn.drop(previous, false);
+                        if (!playerIn.addItem(previous)) playerIn.drop(previous, false, Prediction.SERVER_ONLY);
                         ItemStack upgradeStack = stack.copy();
                         upgradeStack.setCount(1);
                         component.setStackInSlot(i, upgradeStack);
@@ -478,7 +480,7 @@ public abstract class ControllableDrawerTile<T extends ControllableDrawerTile<T>
 
     @Override
     public int getTitleColor() {
-        return 0xff000000 | ChatFormatting.DARK_GRAY.getColor();
+        return 0xff000000 | TextColor.DARK_GRAY.getValue();
     }
 
     public boolean isStorageUpgradeLocked() {

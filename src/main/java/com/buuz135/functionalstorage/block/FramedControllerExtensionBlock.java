@@ -31,7 +31,7 @@ import java.util.List;
 public class FramedControllerExtensionBlock extends StorageControllerExtensionBlock<FramedControllerExtensionTile> implements FramedBlock {
 
     public FramedControllerExtensionBlock() {
-        super("framed_controller_extension", Properties.ofFullCopy(Blocks.IRON_BLOCK).noOcclusion().isViewBlocking(((p_61036_, p_61037_, p_61038_) -> false)), FramedControllerExtensionTile.class);
+        super("framed_controller_extension", Properties.ofFullCopy(Blocks.IRON_BLOCK).noOcclusion().isViewBlocking(((p_61036_, p_61037_, p_61038_, aabb) -> false)), FramedControllerExtensionTile.class);
     }
 
     @Override

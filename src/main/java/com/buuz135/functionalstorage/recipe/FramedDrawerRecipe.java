@@ -41,6 +41,6 @@ public class FramedDrawerRecipe extends CustomRecipe {
     @Override
     @SuppressWarnings("unchecked")
     public RecipeSerializer<FramedDrawerRecipe> getSerializer() {
-        return (RecipeSerializer<FramedDrawerRecipe>) (RecipeSerializer<?>) FunctionalStorage.FRAMED_RECIPE_SERIALIZER.value();
+        return (RecipeSerializer<FramedDrawerRecipe>) FunctionalStorage.FRAMED_RECIPE_SERIALIZER.value();
     }
 }

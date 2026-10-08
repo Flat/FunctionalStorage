@@ -28,7 +28,7 @@ public class DrawerlessWoodIngredient implements ICustomIngredient {
 
     @Override
     public Stream<Holder<Item>> items() {
-        return getWoods().stream().map(Item::builtInRegistryHolder);
+        return getWoods().stream().map(BuiltInRegistries.ITEM::wrapAsHolder);
     }
 
     @Override

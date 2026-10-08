@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.core.Direction;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
@@ -82,7 +83,7 @@ public abstract class BaseDrawerRenderer<T extends ControllableDrawerTile<T>>
 
         matrixStack.translate(0, 0, -0.5 / 16D);
         int lightCoords = tile.getLevel() != null
-                ? LevelRenderer.getLightCoords(tile.getLevel(), tile.getBlockPos().relative(subfacing))
+                ? LightCoordsUtil.getLightCoords(tile.getLevel(), tile.getBlockPos().relative(subfacing))
                 : state.lightCoords;
         DrawerRenderer.renderUpgrades(matrixStack, collector, lightCoords, tile);
 

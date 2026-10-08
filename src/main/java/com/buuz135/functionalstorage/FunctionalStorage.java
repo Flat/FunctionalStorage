@@ -49,7 +49,6 @@ import com.buuz135.functionalstorage.item.UpgradeItem;
 import com.buuz135.functionalstorage.item.component.AndBehavior;
 import com.buuz135.functionalstorage.item.component.CollectFluidsBehavior;
 import com.buuz135.functionalstorage.item.component.CollectItemEntitiesBehavior;
-import com.buuz135.functionalstorage.item.component.DelegateToItemBehavior;
 import com.buuz135.functionalstorage.item.component.EmitRedstoneBehavior;
 import com.buuz135.functionalstorage.item.component.ExecuteEveryBehavior;
 import com.buuz135.functionalstorage.item.component.FunctionalUpgradeBehavior;
@@ -76,6 +75,7 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
+import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -344,7 +344,6 @@ public class FunctionalStorage extends ModuleController {
                 () -> new RecipeSerializer<>(CopyComponentsRecipe.CODEC, CopyComponentsRecipe.STREAM_CODEC));
 
         // TODO - remove in next lifecycle
-        getRegistries().registerGeneric(FunctionalUpgradeBehavior.REGISTRY_KEY, "delegate_to_item", () -> DelegateToItemBehavior.CODEC);
 
         getRegistries().registerGeneric(FunctionalUpgradeBehavior.REGISTRY_KEY, "execute_every", () -> ExecuteEveryBehavior.CODEC);
         getRegistries().registerGeneric(FunctionalUpgradeBehavior.REGISTRY_KEY, "generate_item", () -> GenerateItemBehavior.CODEC);
@@ -365,12 +364,12 @@ public class FunctionalStorage extends ModuleController {
         eventBus.addListener((final ModifyDefaultComponentsEvent event) -> {
             // We modify the component here to make sure we have a reference to the correct holder
             // The void upgrade can only be installed at most once
-            event.modify(VOID_UPGRADE.get(), b -> b.set(FSAttachments.INCOMPATIBLE_UPGRADES.get(), HolderSet.direct(VOID_UPGRADE.get().builtInRegistryHolder())));
-            event.modify(DRIPPING_UPGRADE.get(), b -> b.set(FSAttachments.FUNCTIONAL_BEHAVIOR.get(),
+            event.modify(VOID_UPGRADE.get(), (components, context, item) -> components.set(FSAttachments.INCOMPATIBLE_UPGRADES.get(), HolderSet.direct(BuiltInRegistries.ITEM.wrapAsHolder(VOID_UPGRADE.get()))));
+            event.modify(DRIPPING_UPGRADE.get(), (components, context, item) -> components.set(FSAttachments.FUNCTIONAL_BEHAVIOR.get(),
                     new ExecuteEveryBehavior(20, new GenerateFluidBehavior(new FluidStackTemplate(Fluids.LAVA, 20)))));
-            event.modify(WATER_GENERATOR_UPGRADE.get(), b -> b.set(FSAttachments.FUNCTIONAL_BEHAVIOR.get(),
+            event.modify(WATER_GENERATOR_UPGRADE.get(), (components, context, item) -> components.set(FSAttachments.FUNCTIONAL_BEHAVIOR.get(),
                     new ExecuteEveryBehavior(1, new GenerateFluidBehavior(new FluidStackTemplate(Fluids.WATER, 2000)))));
-            event.modify(OBSIDIAN_UPGRADE.get(), b -> b.set(FSAttachments.FUNCTIONAL_BEHAVIOR.get(),
+            event.modify(OBSIDIAN_UPGRADE.get(), (components, context, item) -> components.set(FSAttachments.FUNCTIONAL_BEHAVIOR.get(),
                     new ExecuteEveryBehavior(300, new GenerateItemBehavior(new ItemStackTemplate(Items.OBSIDIAN)))));
         });
 
@@ -397,15 +396,12 @@ public class FunctionalStorage extends ModuleController {
             event.addProvider(new FunctionalStorageLangProvider(event.getGenerator().getPackOutput(), MOD_ID, "en_us"));
         }
         if (event instanceof GatherDataEvent.Server) {
-            event.addProvider(new TitaniumLootTableProvider(event.getGenerator(), blocksToProcess, event.getLookupProvider()));
-            event.addProvider(new FunctionalStorageBlockTagsProvider(event.getGenerator().getPackOutput(), event.getLookupProvider(), MOD_ID));
-            event.addProvider(new FunctionalStorageItemTagsProvider(event.getGenerator().getPackOutput(), event.getLookupProvider(), MOD_ID));
-            event.addProvider(new FunctionalStorageFluidTagsProvider(event.getGenerator().getPackOutput(), event.getLookupProvider(), MOD_ID));
-            event.addProvider(new FunctionalStorageRecipesProvider.Runner(
-                    event.getGenerator().getPackOutput(),
-                    event.getLookupProvider(),
+            event.addProvider(new FunctionalStorageBlockTagsProvider(event.getGenerator().getPackOutput(), event.getWorldLookupProvider(), MOD_ID));
+            event.addProvider(new FunctionalStorageItemTagsProvider(event.getGenerator().getPackOutput(), event.getWorldLookupProvider(), MOD_ID));
+            event.addProvider(new FunctionalStorageFluidTagsProvider(event.getGenerator().getPackOutput(), event.getWorldLookupProvider(), MOD_ID));
+            event.createReloadableRegistryObjects(new RegistrySetBuilder().add(FunctionalStorageRecipesProvider.create(
                     event.getResourceManager(PackType.SERVER_DATA),
-                    blocksToProcess));
+                    blocksToProcess)).add(Registries.LOOT_TABLE, new TitaniumLootTableProvider(blocksToProcess)));
         }
     }
 
@@ -428,7 +424,7 @@ public class FunctionalStorage extends ModuleController {
         private final TagKey<Item> tag;
         private final Function<Integer, Pair<Integer, Integer>> slotPosition;
 
-        private DrawerType(int slots, int slotAmount, String displayName, Function<Integer, Pair<Integer, Integer>> slotPosition) {
+        DrawerType(int slots, int slotAmount, String displayName, Function<Integer, Pair<Integer, Integer>> slotPosition) {
             this.slots = slots;
             this.slotAmount = slotAmount;
             this.displayName = displayName;

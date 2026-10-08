@@ -2,10 +2,8 @@ package com.buuz135.functionalstorage.client.gui;
 
 import com.buuz135.functionalstorage.FunctionalStorage;
 import com.buuz135.functionalstorage.network.DrawerPriorityMessage;
-import com.hrznstudio.titanium.api.client.AssetTypes;
 import com.hrznstudio.titanium.client.screen.addon.BasicScreenAddon;
 import com.hrznstudio.titanium.client.screen.asset.IAssetProvider;
-import com.hrznstudio.titanium.util.AssetUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -16,6 +14,7 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import org.jspecify.annotations.NonNull;
 
 import java.util.function.Supplier;
 
@@ -33,10 +32,16 @@ public class DrawerPriorityGuiAddon extends BasicScreenAddon {
 
     @Override
     public void init(int guiX, int guiY) {
-        this.editBox = new EditBox(Minecraft.getInstance().font, guiX + getPosX() + 1, guiY + getPosY() + 14, 50, 16, Component.translatable("gui.functionalstorage.priority"));
+        this.editBox = new EditBox(Minecraft.getInstance().font, guiX + getPosX() + 1, guiY + getPosY() + 14, 50, 16, Component.translatable("gui.functionalstorage.priority")) {
+            @Override
+            public void insertText(@NonNull String input) {
+                if(input.chars().allMatch(Character::isDigit)) {
+                    super.insertText(input);
+                }
+            }
+        };
         this.editBox.setBordered(true);
         this.editBox.setMaxLength(9);
-        this.editBox.setFilter(value -> value.chars().allMatch(Character::isDigit));
         this.editBox.setValue(String.valueOf(priority.get()));
         this.editBox.setResponder(this::onPriorityChanged);
     }

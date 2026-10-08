@@ -76,13 +76,13 @@ public class CustomCompactingRecipe implements Recipe<CraftingInput> {
     @Override
     @SuppressWarnings("unchecked")
     public RecipeSerializer<CustomCompactingRecipe> getSerializer() {
-        return (RecipeSerializer<CustomCompactingRecipe>) (RecipeSerializer<?>) FunctionalStorage.CUSTOM_COMPACTING_RECIPE_SERIALIZER.value();
+        return (RecipeSerializer<CustomCompactingRecipe>) FunctionalStorage.CUSTOM_COMPACTING_RECIPE_SERIALIZER.value();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public RecipeType<CustomCompactingRecipe> getType() {
-        return (RecipeType<CustomCompactingRecipe>) (RecipeType<?>) FunctionalStorage.CUSTOM_COMPACTING_RECIPE_TYPE.value();
+        return (RecipeType<CustomCompactingRecipe>) FunctionalStorage.CUSTOM_COMPACTING_RECIPE_TYPE.value();
     }
 
     public void save(RecipeOutput output, Identifier id) {

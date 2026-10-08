@@ -21,49 +21,49 @@ public class FunctionalStorageBlockTagsProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider p_256380_) {
-        TagAppender<Block, Block> tTagAppender = this.tag(BlockTags.MINEABLE_WITH_AXE);
-        TagAppender<Block, Block> relocation = this.tag(Tags.Blocks.RELOCATION_NOT_SUPPORTED);
+        TagAppender<Block> tTagAppender = this.tag(BlockTags.MINEABLE_WITH_AXE);
+        TagAppender<Block> relocation = this.tag(Tags.Blocks.RELOCATION_NOT_SUPPORTED);
         for (FunctionalStorage.DrawerType drawerType : FunctionalStorage.DRAWER_TYPES.keySet()) {
-            for (var blockRegistryObject : FunctionalStorage.DRAWER_TYPES.get(drawerType).stream().map(BlockWithTile::block).collect(Collectors.toList())) {
-                tTagAppender.add(blockRegistryObject.get());
-                relocation.add(blockRegistryObject.get());
+            for (var blockRegistryObject : FunctionalStorage.DRAWER_TYPES.get(drawerType).stream().map(BlockWithTile::block).toList()) {
+                tTagAppender.add(blockRegistryObject.key());
+                relocation.add(blockRegistryObject.key());
             }
         }
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
-                .add(FunctionalStorage.COMPACTING_DRAWER.getBlock())
-                .add(FunctionalStorage.DRAWER_CONTROLLER.getBlock())
-                .add(FunctionalStorage.ARMORY_CABINET.getBlock())
-                .add(FunctionalStorage.ENDER_DRAWER.getBlock())
-                .add(FunctionalStorage.FRAMED_COMPACTING_DRAWER.getBlock())
-                .add(FunctionalStorage.FLUID_DRAWER_1.getBlock())
-                .add(FunctionalStorage.FLUID_DRAWER_2.getBlock())
-                .add(FunctionalStorage.FLUID_DRAWER_4.getBlock())
-                .add(FunctionalStorage.FRAMED_FLUID_DRAWER_1.getBlock())
-                .add(FunctionalStorage.FRAMED_FLUID_DRAWER_2.getBlock())
-                .add(FunctionalStorage.FRAMED_FLUID_DRAWER_4.getBlock())
-                .add(FunctionalStorage.CONTROLLER_EXTENSION.getBlock())
-                .add(FunctionalStorage.SIMPLE_COMPACTING_DRAWER.getBlock())
-                .add(FunctionalStorage.FRAMED_DRAWER_CONTROLLER.getBlock())
-                .add(FunctionalStorage.FRAMED_CONTROLLER_EXTENSION.getBlock())
-                .add(FunctionalStorage.FRAMED_SIMPLE_COMPACTING_DRAWER.getBlock());
+                .add(FunctionalStorage.COMPACTING_DRAWER.block().key())
+                .add(FunctionalStorage.DRAWER_CONTROLLER.block().key())
+                .add(FunctionalStorage.ARMORY_CABINET.block().key())
+                .add(FunctionalStorage.ENDER_DRAWER.block().key())
+                .add(FunctionalStorage.FRAMED_COMPACTING_DRAWER.block().key())
+                .add(FunctionalStorage.FLUID_DRAWER_1.block().key())
+                .add(FunctionalStorage.FLUID_DRAWER_2.block().key())
+                .add(FunctionalStorage.FLUID_DRAWER_4.block().key())
+                .add(FunctionalStorage.FRAMED_FLUID_DRAWER_1.block().key())
+                .add(FunctionalStorage.FRAMED_FLUID_DRAWER_2.block().key())
+                .add(FunctionalStorage.FRAMED_FLUID_DRAWER_4.block().key())
+                .add(FunctionalStorage.CONTROLLER_EXTENSION.block().key())
+                .add(FunctionalStorage.SIMPLE_COMPACTING_DRAWER.block().key())
+                .add(FunctionalStorage.FRAMED_DRAWER_CONTROLLER.block().key())
+                .add(FunctionalStorage.FRAMED_CONTROLLER_EXTENSION.block().key())
+                .add(FunctionalStorage.FRAMED_SIMPLE_COMPACTING_DRAWER.block().key());
 
         this.tag(Tags.Blocks.RELOCATION_NOT_SUPPORTED)
-                .add(FunctionalStorage.COMPACTING_DRAWER.getBlock())
-                .add(FunctionalStorage.DRAWER_CONTROLLER.getBlock())
-                .add(FunctionalStorage.ARMORY_CABINET.getBlock())
-                .add(FunctionalStorage.ENDER_DRAWER.getBlock())
-                .add(FunctionalStorage.FRAMED_COMPACTING_DRAWER.getBlock())
-                .add(FunctionalStorage.FLUID_DRAWER_1.getBlock())
-                .add(FunctionalStorage.FLUID_DRAWER_2.getBlock())
-                .add(FunctionalStorage.FLUID_DRAWER_4.getBlock())
-                .add(FunctionalStorage.FRAMED_FLUID_DRAWER_1.getBlock())
-                .add(FunctionalStorage.FRAMED_FLUID_DRAWER_2.getBlock())
-                .add(FunctionalStorage.FRAMED_FLUID_DRAWER_4.getBlock())
-                .add(FunctionalStorage.CONTROLLER_EXTENSION.getBlock())
-                .add(FunctionalStorage.SIMPLE_COMPACTING_DRAWER.getBlock())
-                .add(FunctionalStorage.FRAMED_DRAWER_CONTROLLER.getBlock())
-                .add(FunctionalStorage.FRAMED_CONTROLLER_EXTENSION.getBlock())
-                .add(FunctionalStorage.FRAMED_SIMPLE_COMPACTING_DRAWER.getBlock())
+                .add(FunctionalStorage.COMPACTING_DRAWER.block().key())
+                .add(FunctionalStorage.DRAWER_CONTROLLER.block().key())
+                .add(FunctionalStorage.ARMORY_CABINET.block().key())
+                .add(FunctionalStorage.ENDER_DRAWER.block().key())
+                .add(FunctionalStorage.FRAMED_COMPACTING_DRAWER.block().key())
+                .add(FunctionalStorage.FLUID_DRAWER_1.block().key())
+                .add(FunctionalStorage.FLUID_DRAWER_2.block().key())
+                .add(FunctionalStorage.FLUID_DRAWER_4.block().key())
+                .add(FunctionalStorage.FRAMED_FLUID_DRAWER_1.block().key())
+                .add(FunctionalStorage.FRAMED_FLUID_DRAWER_2.block().key())
+                .add(FunctionalStorage.FRAMED_FLUID_DRAWER_4.block().key())
+                .add(FunctionalStorage.CONTROLLER_EXTENSION.block().key())
+                .add(FunctionalStorage.SIMPLE_COMPACTING_DRAWER.block().key())
+                .add(FunctionalStorage.FRAMED_DRAWER_CONTROLLER.block().key())
+                .add(FunctionalStorage.FRAMED_CONTROLLER_EXTENSION.block().key())
+                .add(FunctionalStorage.FRAMED_SIMPLE_COMPACTING_DRAWER.block().key())
         ;
     }
 

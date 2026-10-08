@@ -26,7 +26,7 @@ import java.util.stream.StreamSupport;
 public class FramedDrawerBlock extends DrawerBlock implements FramedBlock {
 
     public FramedDrawerBlock(FunctionalStorage.DrawerType type) {
-        super(DrawerWoodType.FRAMED, type, Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion().isViewBlocking((p_61036_, p_61037_, p_61038_) -> false));
+        super(DrawerWoodType.FRAMED, type, Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion().isViewBlocking((p_61036_, p_61037_, p_61038_, aabb) -> false));
     }
 
     @Override
@@ -103,7 +103,7 @@ public class FramedDrawerBlock extends DrawerBlock implements FramedBlock {
                         Ingredient.of(StreamSupport.stream(BuiltInRegistries.ITEM.getTagOrEmpty(getType().getTag()).spliterator(), false).map(holder -> holder.value())),
                         Ingredient.of(this)
                 ))
-                .setName(builtInRegistryHolder().unwrapKey().get().identifier().withSuffix("_from_simple"))
+                .setName(BuiltInRegistries.BLOCK.getKey(this).withSuffix("_from_simple"))
                 .save(CopyComponentsRecipe.output(output, copyIndex, FSAttachments.TILE.get()));
     }
     private void simpleToFramed(RecipeOutput output, TitaniumShapedRecipeBuilder recipe) {

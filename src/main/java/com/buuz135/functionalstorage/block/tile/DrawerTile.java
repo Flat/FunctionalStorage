@@ -23,8 +23,8 @@ public class DrawerTile extends ItemControllableDrawerTile<DrawerTile> {
 
     @Save
     public BigInventoryHandler handler;
-    private FunctionalStorage.DrawerType type;
-    private IWoodType woodType;
+    private final FunctionalStorage.DrawerType type;
+    private final IWoodType woodType;
 
     public DrawerTile(BasicTileBlock<DrawerTile> base, BlockEntityType<DrawerTile> blockEntityType, BlockPos pos, BlockState state, FunctionalStorage.DrawerType type, IWoodType woodType) {
         super(base, blockEntityType, pos, state, new DrawerProperties(type.getSlotAmount(), FSAttachments.ITEM_STORAGE_MODIFIER));

@@ -287,7 +287,7 @@ public abstract class Drawer<T extends ControllableDrawerTile<T>> extends Rotata
         return hasContents ? Math.min(15, (int) Math.floor(fullness * 14D) + 1) : 0;
     }
 
-    @Override
+
     public boolean canConnectRedstone(BlockState state, BlockGetter level, BlockPos pos, @org.jetbrains.annotations.Nullable Direction direction) {
         ControllableDrawerTile<?> tile = TileUtil.getTileEntity(level, pos, ControllableDrawerTile.class).orElse(null);
         if (tile != null) {
